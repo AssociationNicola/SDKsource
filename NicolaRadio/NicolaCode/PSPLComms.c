@@ -147,7 +147,7 @@ u32 KeypadPico[] = {
 };
 #endif
 
-#if 0
+#if 1
 u32 UserPico[] = {
 #include "../../../PicoSource/UserPico.c"
 };
@@ -221,13 +221,13 @@ void PSPLComms_Initialise()
 
 
 #if 0
+	/* PicoNo=0; %User=0, DSP=1, KP=2,TD=3 */
 
+   	xil_printf("Send DSP\n\r");
+   	LoadPicoFast(DSPPico, sizeof(DSPPico)/4, 1);
 
-   	//xil_printf("Send DSP\n\r");
-   	//LoadPicoFast(DSPPico, sizeof(DSPPico)/4, 2);
-
-    xil_printf("Send Keypad\n\r");
-   	LoadPicoFast(KeypadPico, sizeof(KeypadPico)/4, 2);
+    //xil_printf("Send Keypad\n\r");
+   	//LoadPicoFast(KeypadPico, sizeof(KeypadPico)/4, 2);
 
    	xil_printf("Send User Pico\n\r");
    	LoadPicoFast(UserPico, sizeof(UserPico)/4, 0);
@@ -235,6 +235,11 @@ void PSPLComms_Initialise()
    	xil_printf("Done Load Pico\n\r");
 
 #endif
+
+
+
+   	xil_printf("Send User Pico\n\r");
+   	LoadPicoFast(UserPico, sizeof(UserPico)/4, 0);
 
 
     PLTransmitQueue = xQueueCreate( 4,					// max item count
@@ -424,8 +429,32 @@ static void PL_Receiver( void *pvParameters )
 
 				break;
 
+			case KEY_DOWNLEFT:
+				xil_printf( "KEY DOWN & LEFT PRESSED\n\r" );
+#ifdef BT_DEBUG
+				AddMessageToBluetoothTransmit("  KEY Down&Left PRESSED\n\r");
+#endif
+
+#ifdef LCD_DEBUG
+				LCD_Write_String( 1, 0 , "KEY DOWN & LEFT PRESSED");
+#endif
+
+				break;
+
+			case KEY_DOWNRIGHT:
+				xil_printf( "KEY DOWN & RIGHT PRESSED\n\r" );
+#ifdef BT_DEBUG
+				AddMessageToBluetoothTransmit("  KEY Down&Right PRESSED\n\r");
+#endif
+
+#ifdef LCD_DEBUG
+				LCD_Write_String( 1, 0 , "KEY DOWN & RIGHT PRESSED");
+#endif
+
+				break;
+
 			case KEY_AERIAL_EARTHING:
-				xil_printf( "TRANSMIT QUAL %c %c\n\r", Buffer[2], Buffer[3] );
+				//xil_printf( "TRANSMIT QUAL %c %c\n\r", Buffer[2], Buffer[3] );
 				break;
 
 			case KEY_HEYPHONE_FREQ:			//	'w'
