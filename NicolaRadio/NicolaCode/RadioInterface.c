@@ -100,8 +100,43 @@ static void Radio_Main( void *pvParameters )
 /* this section provides the routines to effect setting changes made by the user	*/
 /* through the menu system															*/
 
-void SetMicrophoneVolume(int selected )
+void SetMicrophoneVolume(int changeValue )
 {
+	extern int 	MicrophoneVolume ;
+
+	if ( changeValue > 0 )
+	{
+		if ( MicrophoneVolume == MIN_VOLUME )
+		{
+			// if we were at minimum volume then set to callers value
+			MicrophoneVolume = changeValue ;
+		}
+		else
+		{
+			// increase by callers value
+			MicrophoneVolume += changeValue ;
+		}
+	}
+	else
+	if ( changeValue < 0 )
+	{
+		// decrease by callers value
+		MicrophoneVolume += changeValue ;
+	}
+
+	if ( MicrophoneVolume < MIN_VOLUME )
+	{
+		MicrophoneVolume = MIN_VOLUME ;
+	}
+
+	if ( MicrophoneVolume > MAX_VOLUME )
+	{
+		MicrophoneVolume = MAX_VOLUME ;
+	}
+
+	n3z_tonetest_audiovolume_write(InstancePtr, MicrophoneVolume);
+
+#if 0
 	switch ( selected )
 	{
 	case 4:
@@ -157,6 +192,8 @@ void SetMicrophoneVolume(int selected )
 		break;
 
 	}
+#endif
+
 }
 
 void SetAerialType(int selected )
