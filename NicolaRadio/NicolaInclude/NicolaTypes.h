@@ -7,7 +7,7 @@
 **	Version:	Date:	Author:	Reason:
 **	00.0A	May 2016	PA		Original Version
 
-** All Rights Reserved(c) Association Nicola, Graham Naylor, Pete Allwright
+** All Rights Reserved(c) Association Nicola, Graham Naylor, Pete Allwright,
 
 
 

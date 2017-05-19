@@ -1177,32 +1177,10 @@ static void LCD_Main( void *pvParameters )
 					xTimerStart( LCDTimer1, portMAX_DELAY );	// and start the backlight timer
 				}
 			}
-<<<<<<<
-
-=======
 
 			// Tone Detect Messages
 
->>>>>>>
 			else
-<<<<<<<
-			if ( theMessage[0] == KEY_DOWNLEFT )		/* special to reduce volume */
-			{
-				SetMicrophoneVolume( DECREMENT_VOLUME ) ;
-
-				xil_printf( "VOLUME DOWN = %d\r\n", MicrophoneVolume );
-
-			}
-			else
-			if ( theMessage[0] == KEY_DOWNRIGHT )		/* special to increase volume */
-			{
-				SetMicrophoneVolume( INCREMENT_VOLUME ) ;
-
-				xil_printf( "VOLUME UP = %d\r\n", MicrophoneVolume );
-			}
-
-			else
-=======
 			if ( theMessage[0] == '+' )		/* Tone detect pico messages */
 			{
 				if ( theMessage[1] == '0' )		/* tone detect off */
@@ -1240,7 +1218,6 @@ static void LCD_Main( void *pvParameters )
 			}
 
 			else
->>>>>>>
 			if ( ( CurrentMenuPosition == TOP_LEVEL ) && ( theMessage[0] != KEY_UPLEFT ) && ( theMessage[0] != KEY_LEFTRIGHT ) )
 			{
 
