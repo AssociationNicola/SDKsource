@@ -10,6 +10,7 @@
 ** All Rights Reserved(c) Association Nicola, Graham Naylor, Pete Allwright
 
 
+
 *****************************************************************************/
 
 
@@ -251,12 +252,19 @@ typedef struct main_menu_item_struct
 
 extern void SetMicrophoneVolume(int  );
 
+int 	MicrophoneVolume = DEFAULT_VOLUME ;
 
 
 #ifdef TEST_DEFAULT_MENU
 
 
 /* test harness for the menu system - September 2016 */
+
+
+
+#if 0
+
+// now uses LEFT and DOWN or RIGHT and DOWN to decrease or increase volume
 
 SUB_MENU_ITEM	microphoneVolume1;
 SUB_MENU_ITEM	microphoneVolume2;
@@ -279,6 +287,7 @@ SUB_MENU_ITEM	microphoneVolume4 =
 
 SUB_MENU_ITEM	microphoneVolume5 =
 		{ NULL, &microphoneVolume4, 0, "OFF " };
+#endif
 
 
 SUB_MENU_ITEM	aerialTypeSetting;
@@ -431,16 +440,17 @@ MAIN_MENU_ITEM	theMenu_4 =
 
 
 MAIN_MENU_ITEM	theMenu_3 =
-{ &theMenu_4, &theMenu_1, "AERIAL TYPE",			(void *) &aerialTypeSetting, 	SetAerialType, 	SUB_MENU_TEXT, MENU_ITEM_TYPE_AERIAL_TYPE,		0, 0, 0, 0 };
+{ &theMenu_4, &theMenu_99, "AERIAL TYPE",			(void *) &aerialTypeSetting, 	SetAerialType, 	SUB_MENU_TEXT, MENU_ITEM_TYPE_AERIAL_TYPE,		0, 0, 0, 0 };
 
 
 //MAIN_MENU_ITEM	theMenu_2 =
 //{ &theMenu_3, &theMenu_1, "BLOCKED", 			(void *) &frequencySetting, 	NULL, 	SUB_MENU_TEXT, MENU_ITEM_TYPE_AERIAL_TYPE,		0, 0, 0, 0 };	/* to test the mechanism only */
 
 
+#if 0
 MAIN_MENU_ITEM	theMenu_1 =
 { &theMenu_3, &theMenu_99, "M-PHONE VOLUME", 		(void *) &microphoneVolume1, 	SetMicrophoneVolume, 	SUB_MENU_TEXT, MENU_ITEM_TYPE_MICROPHONE_VOLUME,		0, 0, 0, 0 };
-
+#endif
 
 #else
 
@@ -1166,7 +1176,7 @@ static void LCD_Main( void *pvParameters )
 
 					TransmitStatus = NO_TRANSMIT ;
 
-					DisplayAerialEarthing = FALSE;
+					//DisplayAerialEarthing = FALSE;
 
 					PLMessage[0] = '*' ;
 					PLMessage[1] = SEND_RECEIVE_STATE;
@@ -1188,6 +1198,23 @@ static void LCD_Main( void *pvParameters )
 					xTimerStart( LCDTimer1, portMAX_DELAY );	// and start the backlight timer
 				}
 			}
+
+			else
+			if ( theMessage[0] == KEY_DOWNLEFT )		/* special to reduce volume */
+			{
+				SetMicrophoneVolume( DECREMENT_VOLUME ) ;
+
+				xil_printf( "VOLUME DOWN = %d\r\n", MicrophoneVolume );
+
+			}
+			else
+			if ( theMessage[0] == KEY_DOWNRIGHT )		/* special to increase volume */
+			{
+				SetMicrophoneVolume( INCREMENT_VOLUME ) ;
+
+				xil_printf( "VOLUME UP = %d\r\n", MicrophoneVolume );
+			}
+
 			else
 			if ( ( CurrentMenuPosition == TOP_LEVEL ) && ( theMessage[0] != KEY_UPLEFT ) && ( theMessage[0] != KEY_LEFTRIGHT ) )
 			{
@@ -1234,7 +1261,7 @@ static void LCD_Main( void *pvParameters )
 
 						TransmitStatus = HANDSET_TRANSMITTING ;
 
-						DisplayAerialEarthing = TRUE;
+						//DisplayAerialEarthing = TRUE;
 						LCD_Clear();
 						LCD_Write_String( FIRST_LINE, 0, thisNicolaSettings.thisNicolaName );
 
@@ -1264,7 +1291,7 @@ static void LCD_Main( void *pvParameters )
 
 						TransmitStatus = NO_TRANSMIT ;
 
-						DisplayAerialEarthing = FALSE;
+						//DisplayAerialEarthing = FALSE;
 
 						PLMessage[0] = '*' ;
 						PLMessage[1] = SEND_RECEIVE_STATE;
@@ -1300,7 +1327,7 @@ static void LCD_Main( void *pvParameters )
 
 						TransmitStatus = BLUETOOTH_TRANSMITTING ;
 
-						DisplayAerialEarthing = TRUE;
+						//DisplayAerialEarthing = TRUE;
 						LCD_Clear();
 						LCD_Write_String( FIRST_LINE, 0, thisNicolaSettings.thisNicolaName );
 
@@ -1340,7 +1367,7 @@ static void LCD_Main( void *pvParameters )
 
 						TransmitStatus = NO_TRANSMIT ;
 
-						DisplayAerialEarthing = FALSE;
+						//DisplayAerialEarthing = FALSE;
 
 						PLMessage[0] = '*' ;
 						PLMessage[1] = SEND_RECEIVE_STATE;
@@ -1366,6 +1393,7 @@ static void LCD_Main( void *pvParameters )
 					}
 				}
     		}
+
     		else
     		// no PTT and key received - manage menu system
     		{
@@ -2950,7 +2978,7 @@ void MenuMessageFromHostComputer( char *theMessage )
 static void ApplyDefaultSettings()
 {
 
-	SetMicrophoneVolume( thisNicolaSettings.microphoneVolume );
+	SetMicrophoneVolume( 0 );
 
 	SetAerialType( thisNicolaSettings.aerialType);
 
@@ -3113,7 +3141,7 @@ static int ReadMenuFromFlash( void )
 
 		//ApplyDefaultSettings();
 
-		SetMicrophoneVolume( thisNicolaSettings.microphoneVolume );
+		SetMicrophoneVolume( 0 );
 
 		return pdFAIL;
 	}
@@ -3459,10 +3487,10 @@ static void LCD_LoadHandlerRoutine( MAIN_MENU_ITEM *mainMenuItem )
 
 	switch( mainMenuItem->SubMenuType )
 	{
-	case MENU_ITEM_TYPE_MICROPHONE_VOLUME:
+	//case MENU_ITEM_TYPE_MICROPHONE_VOLUME:
 		//mainMenuItem->SubMenuClass = SUB_MENU_TEXT;
-		mainMenuItem->menuItemChanged = &SetMicrophoneVolume;
-		break;
+	//	mainMenuItem->menuItemChanged = &SetMicrophoneVolume;
+	//	break;
 	case MENU_ITEM_TYPE_AERIAL_TYPE:
 		//mainMenuItem->SubMenuClass = SUB_MENU_TEXT;
 		mainMenuItem->menuItemChanged = &SetAerialType;
