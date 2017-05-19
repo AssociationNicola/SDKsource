@@ -136,64 +136,6 @@ void SetMicrophoneVolume(int changeValue )
 
 	n3z_tonetest_audiovolume_write(InstancePtr, MicrophoneVolume);
 
-#if 0
-	switch ( selected )
-	{
-	case 4:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume HIGH\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 150);
-
-		break;
-	case 3:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume 3/4\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 100);
-
-		break;
-	case 2:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume 1/2\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 50);
-
-		break;
-	case 1:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume 1/4\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 12);
-
-		break;
-	case 0:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume OFF\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 12);
-
-		break;
-	default:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume ERROR\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-		break;
-
-	}
-#endif
-
 }
 
 void SetAerialType(int selected )

@@ -20,7 +20,6 @@
 
 /* LED defitions */
 
-#if 1
 
 #define GPIO_BANK2 (54)
 
@@ -34,19 +33,7 @@
 #define LED_WHITE		(0x8FFF8FFF)
 #define LED_OFF			(0x8FFFFFFF)
 
-#else
 
-#define LED_BLUE		(0x8FFF6FFF)
-#define LED_RED			(0x8FFF3FFF)
-#define LED_GREEN		(0x8FFF5FFF)
-
-#define LED_YELLOW		(0x8FFF1FFF)
-#define LED_PURPLE		(0x8FFF2FFF)
-#define LED_LIGHTBLUE	(0x8FFF4FFF)
-#define LED_WHITE		(0x8FFF8FFF)
-#define LED_OFF			(0x8FFFFFFF)
-
-#endif
 
 /*  need to hold all messages */
 #define MAX_STRING_LENGTH	128
