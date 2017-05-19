@@ -104,6 +104,9 @@ void SetMicrophoneVolume(int changeValue )
 {
 	extern int 	MicrophoneVolume ;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 54abbfe... Volume control by LEFT+DOWN and RIGHT+DOWN
 
 	if ( changeValue > 0 )
 	{
@@ -137,6 +140,7 @@ void SetMicrophoneVolume(int changeValue )
 
 	n3z_tonetest_audiovolume_write(InstancePtr, MicrophoneVolume);
 
+<<<<<<< HEAD
 #if 0
 	switch ( selected )
 	{
@@ -197,6 +201,8 @@ void SetMicrophoneVolume(int changeValue )
 
 =======
 >>>>>>> WorkingVolumeControl
+=======
+>>>>>>> parent of 54abbfe... Volume control by LEFT+DOWN and RIGHT+DOWN
 }
 
 void SetAerialType(int selected )

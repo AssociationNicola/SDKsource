@@ -142,7 +142,7 @@ u32 KeypadPico[] = {
 };
 #endif
 
-#if 1
+#if 0
 u32 UserPico[] = {
 #include "../../../PicoSource/UserPico.c"
 };
@@ -202,26 +202,27 @@ void PSPLComms_Initialise()
    	LoadPicoFast(DSPPico, sizeof(DSPPico)/4, 1);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //xil_printf("Send Keypad\n\r");
    	//LoadPicoFast(KeypadPico, sizeof(KeypadPico)/4, 2);
 =======
+=======
+>>>>>>> parent of 54abbfe... Volume control by LEFT+DOWN and RIGHT+DOWN
    	xil_printf("Send TD Pico\n\r");
    	LoadPicoFast(TDPico, sizeof(TDPico)/4, 3);
 
     xil_printf("Send Keypad\n\r");
    	LoadPicoFast(KeypadPico, sizeof(KeypadPico)/4, 2);
+<<<<<<< HEAD
 >>>>>>> WorkingVolumeControl
+=======
+>>>>>>> parent of 54abbfe... Volume control by LEFT+DOWN and RIGHT+DOWN
 
    	xil_printf("Send User Pico\n\r");
    	LoadPicoFast(UserPico, sizeof(UserPico)/4, 0);
 
 
 #endif
-
-
-
-   	xil_printf("Send User Pico\n\r");
-   	LoadPicoFast(UserPico, sizeof(UserPico)/4, 0);
 
 
     PLTransmitQueue = xQueueCreate( 4,					// max item count
