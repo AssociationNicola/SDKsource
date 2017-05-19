@@ -103,6 +103,7 @@ static void Radio_Main( void *pvParameters )
 void SetMicrophoneVolume(int changeValue )
 {
 	extern int 	MicrophoneVolume ;
+<<<<<<< HEAD
 
 	if ( changeValue > 0 )
 	{
@@ -155,45 +156,47 @@ void SetMicrophoneVolume(int changeValue )
 		}
 
 		n3z_tonetest_audiovolume_write(InstancePtr, 100);
+=======
+>>>>>>> WorkingVolumeControl
 
-		break;
-	case 2:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume 1/2\n", 0 ) != pdPASS )
+	if ( changeValue > 0 )
+	{
+		if ( MicrophoneVolume == MIN_VOLUME )
 		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
+			// if we were at minimum volume then set to callers value
+			MicrophoneVolume = changeValue ;
 		}
-
-		n3z_tonetest_audiovolume_write(InstancePtr, 50);
-
-		break;
-	case 1:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume 1/4\n", 0 ) != pdPASS )
+		else
 		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
+			// increase by callers value
+			MicrophoneVolume += changeValue ;
 		}
+	}
+	else
+	if ( changeValue < 0 )
+	{
+		// decrease by callers value
+		MicrophoneVolume += changeValue ;
+	}
 
-		n3z_tonetest_audiovolume_write(InstancePtr, 12);
+	if ( MicrophoneVolume < MIN_VOLUME )
+	{
+		MicrophoneVolume = MIN_VOLUME ;
+	}
 
-		break;
-	case 0:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume OFF\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
+	if ( MicrophoneVolume > MAX_VOLUME )
+	{
+		MicrophoneVolume = MAX_VOLUME ;
+	}
 
-		n3z_tonetest_audiovolume_write(InstancePtr, 12);
+	n3z_tonetest_audiovolume_write(InstancePtr, MicrophoneVolume);
 
-		break;
-	default:
-		while ( xQueueSendToBack( consoleTransmitQueue, "Set microphone volume ERROR\n", 0 ) != pdPASS )
-		{
-			vTaskDelay( pdMS_TO_TICKS( 5 ));
-		}
-		break;
-
+<<<<<<< HEAD
 	}
 #endif
 
+=======
+>>>>>>> WorkingVolumeControl
 }
 
 void SetAerialType(int selected )
